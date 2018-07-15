@@ -25,40 +25,45 @@ displayHelp() {
 
 disable() {
     enable 0
-    $SUDO echo "# Disable IPv6 (ipv6toggle.sh) start
+    sudo echo "# Disable IPv6 (ipv6toggle.sh) start
 net.ipv6.conf.all.disable_ipv6 = 1
 net.ipv6.conf.default.disable_ipv6 = 1
 net.ipv6.conf.lo.disable_ipv6 = 1
 # Disable IPv6 (ipv6toggle.sh) end" >> /etc/sysctl.d/99-sysctl.conf
-    $SUDO sysctl -p
+    sudo sysctl -p > /dev/null
     exit 1
 }
 
 enable() {
-    $SUDO sed -i '/# Disable IPv6 (ipv6toggle.sh) start/d' /etc/sysctl.d/99-sysctl.conf
-    $SUDO sed -i '/net.ipv6.conf.all.disable_ipv6 = 1/d' /etc/sysctl.d/99-sysctl.conf
-    $SUDO sed -i '/net.ipv6.conf.default.disable_ipv6 = 1/d' /etc/sysctl.d/99-sysctl.conf
-    $SUDO sed -i '/net.ipv6.conf.lo.disable_ipv6 = 1/d' /etc/sysctl.d/99-sysctl.conf
-    $SUDO sed -i '/# Disable IPv6 (ipv6toggle.sh) end/d' /etc/sysctl.d/99-sysctl.conf
+    sudo sed -i '/# Disable IPv6 (ipv6toggle.sh) start/d' /etc/sysctl.d/99-sysctl.conf
+    sudo sed -i '/net.ipv6.conf.all.disable_ipv6 = 1/d' /etc/sysctl.d/99-sysctl.conf
+    sudo sed -i '/net.ipv6.conf.default.disable_ipv6 = 1/d' /etc/sysctl.d/99-sysctl.conf
+    sudo sed -i '/net.ipv6.conf.lo.disable_ipv6 = 1/d' /etc/sysctl.d/99-sysctl.conf
+    sudo sed -i '/# Disable IPv6 (ipv6toggle.sh) end/d' /etc/sysctl.d/99-sysctl.conf
     if [ !actual ] ; then return 1 ; fi
-    $SUDO sysctl -p
+    sudo sysctl -p > /dev/null
     exit 1
 }
 
-SUDO=""
-if (( $EUID != 0 )); then
-    SUDO='sudo'
-fi
+rootCheck() {
+    if [ "$EUID" -ne "0" ]; then
+        echo "Root or sudo permission was not provided. Run '$0 -h' to see usage."
+        exit 1
+    fi
+    return 1
+}
 
 case "$1" in
     -h | --help | -help)
         displayHelp
         ;;
     enable | on)
+        rootCheck
         enable 1
         exit 1;
         ;;
     disable | off)
+        rootCheck
         disable
         exit 1;
         ;;
@@ -67,6 +72,5 @@ case "$1" in
         exit 1;
         ;;
 esac
-
 
 display_help
