@@ -5,7 +5,7 @@ This is a really simple bash script for enabling and disabling IPv6.
 
 **Installation:**
 
-`wget https://github.com/TensorTom/ipv6toggle/blob/master/ipv6toggle`
+`wget https://raw.githubusercontent.com/TensorTom/ipv6toggle/master/ipv6toggle`
 
 `chmod +x ipv6toggle`
 
