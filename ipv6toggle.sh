@@ -30,6 +30,7 @@ net.ipv6.conf.all.disable_ipv6 = 1
 net.ipv6.conf.default.disable_ipv6 = 1
 net.ipv6.conf.lo.disable_ipv6 = 1
 # Disable IPv6 (ipv6toggle.sh) end" >> /etc/sysctl.d/99-sysctl.conf
+    $SUDO sysctl -p
     exit 1
 }
 
@@ -40,6 +41,7 @@ enable() {
     $SUDO sed -i '/net.ipv6.conf.lo.disable_ipv6 = 1/d' /etc/sysctl.d/99-sysctl.conf
     $SUDO sed -i '/# Disable IPv6 (ipv6toggle.sh) end/d' /etc/sysctl.d/99-sysctl.conf
     if [ !actual ] ; then return 1 ; fi
+    $SUDO sysctl -p
     exit 1
 }
 
