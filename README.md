@@ -13,6 +13,6 @@ This is a really simple bash script for enabling and disabling IPv6.
 
 **Usage**
 
-`sudo ./ipv6toggle {on|off} *or* {enable|disable}`
+`sudo ./ipv6toggle {on|off} or {enable|disable}`
 
    -h, --help           Display the help message.
